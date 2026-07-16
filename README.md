@@ -40,17 +40,12 @@ The original dataset is large and contains many histopathology image patches. Du
 
 The subset contains:
 
-- 5,000 image patches
-- 3,095 negative samples
-- 1,905 positive samples
+- 5,000 image patche
+- 2,014 positive
+- 2,986 Negative
 - Image size: 96 × 96 pixels
 - RGB images
 - Binary labels
-
-Class distribution:
-
-- Negative: 61.9%
-- Positive: 38.1%
 
 The dataset is not included in this repository.
 
@@ -58,9 +53,9 @@ The dataset is not included in this repository.
 
 The selected subset was divided into:
 
-- Training set: 80%
-- Validation set: 10%
-- Test set: 10%
+- Training set: 70%
+- Validation set: 15%
+- Test set: 15%
 
 Stratified splitting was used to preserve the class distribution across all subsets.
 
@@ -70,10 +65,9 @@ Training images were augmented to improve model generalization.
 
 The preprocessing pipeline includes:
 
-- Resize
-- Random horizontal flip
-- Random vertical flip
-- Random rotation
+- Random horizontal flip (p=0.5)
+- Random vertical flip (p=0.5)
+- Random rotation (180)
 - Color jitter
 - Tensor conversion
 - ImageNet normalization
@@ -106,8 +100,7 @@ The models were trained using:
 
 - Loss function: CrossEntropyLoss
 - Optimizer: Adam
-- Learning-rate scheduler: ReduceLROnPlateau
-- Epochs: 10
+- Epochs: 20
 - Validation-based model checkpointing
 
 The model with the highest validation accuracy was saved and later used for test evaluation.
@@ -118,12 +111,14 @@ Several combinations of learning rate and batch size were tested.
 
 Learning rates:
 
+- `0.01`
+- `0.001`
 - `0.0001`
-- `0.00005`
 - `0.00001`
 
 Batch sizes:
-
+- `4`
+- `8`
 - `16`
 - `32`
 
@@ -148,14 +143,14 @@ Because the dataset is imbalanced, F1-score and recall are especially important 
 
 Best configuration:
 
-- Learning rate: `0.00005`
-- Batch size: `32`
+- Learning rate: `0.0001`
+- Batch size: `16`
 
 Performance:
 
 | Metric | Score |
 |---|---:|
-| Accuracy | 0.9196 |
+| Accuracy | 0.916 |
 | Precision | 0.9345 |
 | Recall | 0.8509 |
 | F1-score | 0.8908 |
@@ -164,8 +159,8 @@ Performance:
 
 Best configuration:
 
-- Learning rate: `0.00001`
-- Batch size: `32`
+- Learning rate: `0.0001`
+- Batch size: `16`
 
 Performance:
 
@@ -180,8 +175,8 @@ Performance:
 
 | Model | Learning Rate | Batch Size | Accuracy | Precision | Recall | F1-score |
 |---|---:|---:|---:|---:|---:|---:|
-| ResNet18 | 0.00005 | 32 | 0.9196 | 0.9345 | 0.8509 | 0.8908 |
-| DenseNet121 | 0.00001 | 32 | 0.9066 | 0.8602 | 0.9172 | 0.8878 |
+| ResNet18 | 0.0001 | 16 | 0.916 | 0.9345 | 0.8509 | 0.8908 |
+| DenseNet121 | 0.0001 | 16 | 0.9066 | 0.8602 | 0.9172 | 0.8878 |
 
 ResNet18 achieved the highest overall accuracy, precision, and F1-score.
 
@@ -220,7 +215,6 @@ Update the dataset path in the notebooks.
 Install the required libraries.
 Run the notebooks in Google Colab or Jupyter Notebook.
 
-The original private Google Drive paths were removed from the notebooks.
 
 Technologies
 Python
